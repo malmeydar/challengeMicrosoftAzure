@@ -1,132 +1,132 @@
 {
-	"name": "DSCustomerDataExcelFilePlan",
+	"name": "DSDimCustomerSQL",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LnkedServicesFilePlan",
+			"referenceName": "LnKedServicesSQLServer",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
-		"type": "DelimitedText",
-		"typeProperties": {
-			"location": {
-				"type": "AzureBlobStorageLocation",
-				"fileName": "CustomerData.csv",
-				"container": "filefconteinerdata"
-			},
-			"columnDelimiter": ",",
-			"escapeChar": "\\",
-			"firstRowAsHeader": true,
-			"quoteChar": "\""
-		},
+		"type": "AzureSqlTable",
 		"schema": [
 			{
+				"name": "CustomerKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GeographyKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
 				"name": "CustomerAlternateKey",
-				"type": "String"
-			},
-			{
-				"name": "City",
-				"type": "String"
-			},
-			{
-				"name": "CountryRegionCode",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "FirstName",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "MiddleName",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "LastName",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "BirthDate",
-				"type": "String"
+				"type": "date"
 			},
 			{
 				"name": "MaritalStatus",
-				"type": "String"
+				"type": "nchar"
 			},
 			{
 				"name": "Suffix",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "Gender",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "EmailAddress",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "YearlyIncome",
-				"type": "String"
+				"type": "money",
+				"precision": 19,
+				"scale": 4
 			},
 			{
 				"name": "TotalChildren",
-				"type": "String"
+				"type": "tinyint",
+				"precision": 3
 			},
 			{
 				"name": "NumberChildrenAtHome",
-				"type": "String"
+				"type": "tinyint",
+				"precision": 3
 			},
 			{
 				"name": "EnglishEducation",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "SpanishEducation",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "FrenchEducation",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "EnglishOccupation",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "SpanishOccupation",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "FrenchOccupation",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "HouseOwnerFlag",
-				"type": "String"
+				"type": "nchar"
 			},
 			{
 				"name": "NumberCarsOwned",
-				"type": "String"
+				"type": "tinyint",
+				"precision": 3
 			},
 			{
 				"name": "AddressLine1",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "AddressLine2",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "Phone",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "DateFirstPurchase",
-				"type": "String"
+				"type": "date"
 			},
 			{
 				"name": "CommuteDistance",
-				"type": "String"
+				"type": "nvarchar"
 			}
-		]
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimCustomer"
+		}
 	}
 }
