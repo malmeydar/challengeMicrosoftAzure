@@ -1,0 +1,53 @@
+{
+	"name": "DataFlowProcessKaits",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DSCustomerDataExcelFilePlan",
+						"type": "DatasetReference"
+					},
+					"name": "SourceCustonDataExcel"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          CustomerAlternateKey as string,",
+				"          City as string,",
+				"          CountryRegionCode as string,",
+				"          FirstName as string,",
+				"          MiddleName as string,",
+				"          LastName as string,",
+				"          BirthDate as string,",
+				"          MaritalStatus as string,",
+				"          Suffix as string,",
+				"          Gender as string,",
+				"          EmailAddress as string,",
+				"          YearlyIncome as string,",
+				"          TotalChildren as string,",
+				"          NumberChildrenAtHome as string,",
+				"          EnglishEducation as string,",
+				"          SpanishEducation as string,",
+				"          FrenchEducation as string,",
+				"          EnglishOccupation as string,",
+				"          SpanishOccupation as string,",
+				"          FrenchOccupation as string,",
+				"          HouseOwnerFlag as string,",
+				"          NumberCarsOwned as string,",
+				"          AddressLine1 as string,",
+				"          AddressLine2 as string,",
+				"          Phone as string,",
+				"          DateFirstPurchase as string,",
+				"          CommuteDistance as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SourceCustonDataExcel"
+			]
+		}
+	}
+}
