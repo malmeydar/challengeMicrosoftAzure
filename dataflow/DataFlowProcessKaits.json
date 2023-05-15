@@ -10,6 +10,9 @@
 						"type": "DatasetReference"
 					},
 					"name": "SourceCustonDataExcel"
+				},
+				{
+					"name": "SourceDimGeography"
 				}
 			],
 			"sinks": [],
@@ -46,7 +49,9 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> SourceCustonDataExcel"
+				"     ignoreNoFilesFound: false) ~> SourceCustonDataExcel",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> SourceDimGeography"
 			]
 		}
 	}
