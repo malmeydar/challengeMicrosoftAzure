@@ -12,6 +12,10 @@
 					"name": "SourceCustonDataExcel"
 				},
 				{
+					"dataset": {
+						"referenceName": "DSDimGeography",
+						"type": "DatasetReference"
+					},
 					"name": "SourceDimGeography"
 				}
 			],
@@ -50,8 +54,23 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> SourceCustonDataExcel",
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> SourceDimGeography"
+				"source(output(",
+				"          GeographyKey as integer,",
+				"          City as string,",
+				"          StateProvinceCode as string,",
+				"          StateProvinceName as string,",
+				"          CountryRegionCode as string,",
+				"          EnglishCountryRegionName as string,",
+				"          SpanishCountryRegionName as string,",
+				"          FrenchCountryRegionName as string,",
+				"          PostalCode as string,",
+				"          SalesTerritoryKey as integer,",
+				"          IpAddressLocator as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> SourceDimGeography"
 			]
 		}
 	}
