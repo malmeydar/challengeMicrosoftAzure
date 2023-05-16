@@ -21,11 +21,11 @@
 			],
 			"sinks": [
 				{
-					"dataset": {
-						"referenceName": "DSCustomerDataExcelSQL",
-						"type": "DatasetReference"
+					"linkedService": {
+						"referenceName": "LnKedServicesSQLServer",
+						"type": "LinkedServiceReference"
 					},
-					"name": "sinkCustomerDataExcel"
+					"name": "sink1"
 				}
 			],
 			"transformations": [
@@ -124,12 +124,13 @@
 				"CustonToCustomerDataExcel sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
-				"          GeographyKey as integer,",
 				"          CustomerAlternateKey as string,",
+				"          City as string,",
+				"          CountryRegionCode as string,",
 				"          FirstName as string,",
 				"          MiddleName as string,",
 				"          LastName as string,",
-				"          BirthDate as date,",
+				"          BirthDate as string,",
 				"          MaritalStatus as string,",
 				"          Suffix as string,",
 				"          Gender as string,",
@@ -148,16 +149,19 @@
 				"          AddressLine1 as string,",
 				"          AddressLine2 as string,",
 				"          Phone as string,",
-				"          DateFirstPurchase as date,",
+				"          DateFirstPurchase as string,",
 				"          CommuteDistance as string,",
-				"          CustomerKey as integer",
+				"          GeographyKey as integer",
 				"     ),",
-				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
-				"     upsertable:false,",
-				"     truncate:true,",
 				"     format: 'table',",
+				"     store: 'sqlserver',",
+				"     schemaName: 'dbo',",
+				"     tableName: 'CustomerDataExcel',",
+				"     insertable: true,",
+				"     updateable: false,",
+				"     deletable: false,",
+				"     upsertable: false,",
+				"     truncate: true,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError',",
@@ -188,7 +192,7 @@
 				"          Phone,",
 				"          DateFirstPurchase,",
 				"          CommuteDistance",
-				"     )) ~> sinkCustomerDataExcel"
+				"     )) ~> sink1"
 			]
 		}
 	}
