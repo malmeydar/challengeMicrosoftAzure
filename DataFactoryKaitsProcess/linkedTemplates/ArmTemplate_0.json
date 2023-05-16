@@ -562,19 +562,19 @@
 					],
 					"sinks": [
 						{
-							"dataset": {
-								"referenceName": "DSCustomerDataExcelSQL",
-								"type": "DatasetReference"
+							"linkedService": {
+								"referenceName": "LnKedServicesSQLServer",
+								"type": "LinkedServiceReference"
 							},
-							"name": "sinkSQLCustomerDataExcel"
+							"name": "sinkCustomCustomerDataExcel"
 						}
 					],
 					"transformations": [
 						{
-							"name": "JoinCustomerData"
+							"name": "LookGeograpyKey"
 						},
 						{
-							"name": "selectPreviewCustomerData"
+							"name": "CustonToCustomerDataExcel"
 						}
 					],
 					"scriptLines": [
@@ -627,13 +627,12 @@
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> SourceDimGeography",
-						"SourceCustonDataExcel, SourceDimGeography join(SourceCustonDataExcel@CountryRegionCode == SourceDimGeography@CountryRegionCode",
-						"     && SourceCustonDataExcel@City == SourceDimGeography@City,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> JoinCustomerData",
-						"JoinCustomerData select(mapColumn(",
+						"SourceCustonDataExcel, SourceDimGeography lookup(SourceCustonDataExcel@City == SourceDimGeography@City",
+						"     && SourceCustonDataExcel@CountryRegionCode == SourceDimGeography@CountryRegionCode,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookGeograpyKey",
+						"LookGeograpyKey select(mapColumn(",
 						"          GeographyKey,",
 						"          CustomerAlternateKey,",
 						"          FirstName,",
@@ -659,19 +658,22 @@
 						"          AddressLine2,",
 						"          Phone,",
 						"          DateFirstPurchase,",
-						"          CommuteDistance",
+						"          CommuteDistance,",
+						"          City = SourceDimGeography@City,",
+						"          CountryRegionCode = SourceCustonDataExcel@CountryRegionCode",
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> selectPreviewCustomerData",
-						"selectPreviewCustomerData sink(allowSchemaDrift: true,",
+						"     skipDuplicateMapOutputs: true) ~> CustonToCustomerDataExcel",
+						"CustonToCustomerDataExcel sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
-						"          GeographyKey as integer,",
 						"          CustomerAlternateKey as string,",
+						"          City as string,",
+						"          CountryRegionCode as string,",
 						"          FirstName as string,",
 						"          MiddleName as string,",
 						"          LastName as string,",
-						"          BirthDate as date,",
+						"          BirthDate as string,",
 						"          MaritalStatus as string,",
 						"          Suffix as string,",
 						"          Gender as string,",
@@ -690,16 +692,19 @@
 						"          AddressLine1 as string,",
 						"          AddressLine2 as string,",
 						"          Phone as string,",
-						"          DateFirstPurchase as date,",
+						"          DateFirstPurchase as string,",
 						"          CommuteDistance as string,",
-						"          CustomerKey as integer",
+						"          GeographyKey as integer",
 						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     truncate:true,",
 						"     format: 'table',",
+						"     store: 'sqlserver',",
+						"     schemaName: 'dbo',",
+						"     tableName: 'CustomerDataExcel',",
+						"     insertable: true,",
+						"     updateable: false,",
+						"     deletable: false,",
+						"     upsertable: false,",
+						"     truncate: true,",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError',",
@@ -729,15 +734,17 @@
 						"          AddressLine2,",
 						"          Phone,",
 						"          DateFirstPurchase,",
-						"          CommuteDistance",
-						"     )) ~> sinkSQLCustomerDataExcel"
+						"          CommuteDistance,",
+						"          City,",
+						"          CountryRegionCode",
+						"     )) ~> sinkCustomCustomerDataExcel"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DSCustomerDataExcelFilePlan')]",
 				"[concat(variables('factoryId'), '/datasets/DSDimGeography')]",
-				"[concat(variables('factoryId'), '/datasets/DSCustomerDataExcelSQL')]"
+				"[concat(variables('factoryId'), '/linkedServices/LnKedServicesSQLServer')]"
 			]
 		},
 		{
@@ -766,7 +773,7 @@
 								"datasetParameters": {
 									"SourceCustonDataExcel": {},
 									"SourceDimGeography": {},
-									"sinkSQLCustomerDataExcel": {}
+									"sinkCustomCustomerDataExcel": {}
 								}
 							},
 							"staging": {},
@@ -778,7 +785,7 @@
 						}
 					},
 					{
-						"name": "CopyDataDimCustomer",
+						"name": "CDCustonCurstomerToDimCustomer",
 						"type": "Copy",
 						"dependsOn": [
 							{
@@ -821,9 +828,21 @@
 								"mappings": [
 									{
 										"source": {
+											"name": "GeographyKey",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "GeographyKey",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
 											"name": "CustomerAlternateKey",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "CustomerAlternateKey",
@@ -835,7 +854,7 @@
 										"source": {
 											"name": "FirstName",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "FirstName",
@@ -847,7 +866,7 @@
 										"source": {
 											"name": "MiddleName",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "MiddleName",
@@ -859,7 +878,7 @@
 										"source": {
 											"name": "LastName",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "LastName",
@@ -870,8 +889,8 @@
 									{
 										"source": {
 											"name": "BirthDate",
-											"type": "DateTime",
-											"physicalType": "date"
+											"type": "String",
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "BirthDate",
@@ -883,7 +902,7 @@
 										"source": {
 											"name": "MaritalStatus",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "MaritalStatus",
@@ -895,7 +914,7 @@
 										"source": {
 											"name": "Suffix",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "Suffix",
@@ -907,7 +926,7 @@
 										"source": {
 											"name": "Gender",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "Gender",
@@ -919,7 +938,7 @@
 										"source": {
 											"name": "EmailAddress",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "EmailAddress",
@@ -931,7 +950,7 @@
 										"source": {
 											"name": "YearlyIncome",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "YearlyIncome",
@@ -945,7 +964,7 @@
 										"source": {
 											"name": "TotalChildren",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "TotalChildren",
@@ -957,7 +976,7 @@
 										"source": {
 											"name": "NumberChildrenAtHome",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "NumberChildrenAtHome",
@@ -969,7 +988,7 @@
 										"source": {
 											"name": "EnglishEducation",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "EnglishEducation",
@@ -981,7 +1000,7 @@
 										"source": {
 											"name": "SpanishEducation",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "SpanishEducation",
@@ -993,7 +1012,7 @@
 										"source": {
 											"name": "FrenchEducation",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "FrenchEducation",
@@ -1005,7 +1024,7 @@
 										"source": {
 											"name": "EnglishOccupation",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "EnglishOccupation",
@@ -1017,7 +1036,7 @@
 										"source": {
 											"name": "SpanishOccupation",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "SpanishOccupation",
@@ -1029,7 +1048,7 @@
 										"source": {
 											"name": "FrenchOccupation",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "FrenchOccupation",
@@ -1041,7 +1060,7 @@
 										"source": {
 											"name": "HouseOwnerFlag",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "HouseOwnerFlag",
@@ -1053,7 +1072,7 @@
 										"source": {
 											"name": "NumberCarsOwned",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "NumberCarsOwned",
@@ -1065,7 +1084,7 @@
 										"source": {
 											"name": "AddressLine1",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "AddressLine1",
@@ -1077,7 +1096,7 @@
 										"source": {
 											"name": "AddressLine2",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "AddressLine2",
@@ -1089,7 +1108,7 @@
 										"source": {
 											"name": "Phone",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "Phone",
@@ -1100,8 +1119,8 @@
 									{
 										"source": {
 											"name": "DateFirstPurchase",
-											"type": "DateTime",
-											"physicalType": "date"
+											"type": "String",
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "DateFirstPurchase",
@@ -1113,24 +1132,12 @@
 										"source": {
 											"name": "CommuteDistance",
 											"type": "String",
-											"physicalType": "nvarchar"
+											"physicalType": "varchar"
 										},
 										"sink": {
 											"name": "CommuteDistance",
 											"type": "String",
 											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "GeographyKey",
-											"type": "Int32",
-											"physicalType": "int"
-										},
-										"sink": {
-											"name": "GeographyKey",
-											"type": "Int32",
-											"physicalType": "int"
 										}
 									}
 								],
