@@ -13,14 +13,7 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [
-					{
-						"name": "City"
-					},
-					{
-						"name": "CountryRegionCode"
-					}
-				],
+				"userProperties": [],
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
@@ -34,6 +27,14 @@
 				}
 			}
 		],
+		"variables": {
+			"CountryRegionCode": {
+				"type": "String"
+			},
+			"City": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
