@@ -119,8 +119,6 @@
 				"          DateFirstPurchase,",
 				"          CommuteDistance,",
 				"          City = SourceDimGeography@City,",
-				"          CountryRegionCode = SourceCustonDataExcel@CountryRegionCode,",
-				"          City = SourceCustonDataExcel@City,",
 				"          CountryRegionCode = SourceCustonDataExcel@CountryRegionCode",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
