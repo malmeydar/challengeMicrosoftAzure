@@ -27,7 +27,7 @@
 				}
 			},
 			{
-				"name": "CopyDataDimCustomer",
+				"name": "CDCustonToDimCustomer",
 				"type": "Copy",
 				"dependsOn": [
 					{
@@ -55,11 +55,7 @@
 						"type": "AzureSqlSink",
 						"writeBehavior": "upsert",
 						"upsertSettings": {
-							"useTempDB": true,
-							"keys": [
-								"GeographyKey",
-								"CustomerAlternateKey"
-							]
+							"useTempDB": true
 						},
 						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
@@ -69,10 +65,17 @@
 						"type": "TabularTranslator",
 						"mappings": [
 							{
+								"sink": {
+									"name": "GeographyKey",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
 								"source": {
 									"name": "CustomerAlternateKey",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "CustomerAlternateKey",
@@ -84,7 +87,7 @@
 								"source": {
 									"name": "FirstName",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "FirstName",
@@ -96,7 +99,7 @@
 								"source": {
 									"name": "MiddleName",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MiddleName",
@@ -108,7 +111,7 @@
 								"source": {
 									"name": "LastName",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "LastName",
@@ -119,8 +122,8 @@
 							{
 								"source": {
 									"name": "BirthDate",
-									"type": "DateTime",
-									"physicalType": "date"
+									"type": "String",
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "BirthDate",
@@ -132,7 +135,7 @@
 								"source": {
 									"name": "MaritalStatus",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MaritalStatus",
@@ -144,7 +147,7 @@
 								"source": {
 									"name": "Suffix",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "Suffix",
@@ -156,7 +159,7 @@
 								"source": {
 									"name": "Gender",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "Gender",
@@ -168,7 +171,7 @@
 								"source": {
 									"name": "EmailAddress",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "EmailAddress",
@@ -180,7 +183,7 @@
 								"source": {
 									"name": "YearlyIncome",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "YearlyIncome",
@@ -194,7 +197,7 @@
 								"source": {
 									"name": "TotalChildren",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "TotalChildren",
@@ -206,7 +209,7 @@
 								"source": {
 									"name": "NumberChildrenAtHome",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "NumberChildrenAtHome",
@@ -218,7 +221,7 @@
 								"source": {
 									"name": "EnglishEducation",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "EnglishEducation",
@@ -230,7 +233,7 @@
 								"source": {
 									"name": "SpanishEducation",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "SpanishEducation",
@@ -242,7 +245,7 @@
 								"source": {
 									"name": "FrenchEducation",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "FrenchEducation",
@@ -254,7 +257,7 @@
 								"source": {
 									"name": "EnglishOccupation",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "EnglishOccupation",
@@ -266,7 +269,7 @@
 								"source": {
 									"name": "SpanishOccupation",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "SpanishOccupation",
@@ -278,7 +281,7 @@
 								"source": {
 									"name": "FrenchOccupation",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "FrenchOccupation",
@@ -290,7 +293,7 @@
 								"source": {
 									"name": "HouseOwnerFlag",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "HouseOwnerFlag",
@@ -302,7 +305,7 @@
 								"source": {
 									"name": "NumberCarsOwned",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "NumberCarsOwned",
@@ -314,7 +317,7 @@
 								"source": {
 									"name": "AddressLine1",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "AddressLine1",
@@ -326,7 +329,7 @@
 								"source": {
 									"name": "AddressLine2",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "AddressLine2",
@@ -338,7 +341,7 @@
 								"source": {
 									"name": "Phone",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "Phone",
@@ -349,8 +352,8 @@
 							{
 								"source": {
 									"name": "DateFirstPurchase",
-									"type": "DateTime",
-									"physicalType": "date"
+									"type": "String",
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "DateFirstPurchase",
@@ -362,24 +365,12 @@
 								"source": {
 									"name": "CommuteDistance",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "CommuteDistance",
 									"type": "String",
 									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "GeographyKey",
-									"type": "Int32",
-									"physicalType": "int"
-								},
-								"sink": {
-									"name": "GeographyKey",
-									"type": "Int32",
-									"physicalType": "int"
 								}
 							}
 						],
