@@ -70,30 +70,6 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "CustomerKey",
-									"type": "Int32",
-									"physicalType": "int"
-								},
-								"sink": {
-									"name": "CustomerKey",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
-								"source": {
-									"name": "GeographyKey",
-									"type": "Int32",
-									"physicalType": "int"
-								},
-								"sink": {
-									"name": "GeographyKey",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
-								"source": {
 									"name": "CustomerAlternateKey",
 									"type": "String",
 									"physicalType": "nvarchar"
