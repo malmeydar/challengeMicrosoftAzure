@@ -19,6 +19,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'linkedServicesBlobStorage'"
 		},
+		"lnkedServicesBlobStorageProcess_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'lnkedServicesBlobStorageProcess'"
+		},
 		"TrigetEventBlobStorage_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/c3e3ad79-823c-43e1-b981-9fd1412b9b88/resourceGroups/ResourceGroupKaits/providers/Microsoft.Storage/storageAccounts/storagegroupkaits"
@@ -63,6 +67,19 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('linkedServicesBlobStorage_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/lnkedServicesBlobStorageProcess')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('lnkedServicesBlobStorageProcess_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -613,7 +630,8 @@
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> SourceCustonDataExcel",
+						"     ignoreNoFilesFound: false,",
+						"     purgeFiles: true) ~> SourceCustonDataExcel",
 						"source(output(",
 						"          GeographyKey as integer,",
 						"          City as string,",
@@ -819,7 +837,6 @@
 								"upsertSettings": {
 									"useTempDB": true,
 									"keys": [
-										"GeographyKey",
 										"CustomerAlternateKey"
 									]
 								},

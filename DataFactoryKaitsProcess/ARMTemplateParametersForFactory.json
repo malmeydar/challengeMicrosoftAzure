@@ -14,6 +14,9 @@
 		"linkedServicesBlobStorage_connectionString": {
 			"value": ""
 		},
+		"lnkedServicesBlobStorageProcess_connectionString": {
+			"value": ""
+		},
 		"TrigetEventBlobStorage_properties_typeProperties_scope": {
 			"value": "/subscriptions/c3e3ad79-823c-43e1-b981-9fd1412b9b88/resourceGroups/ResourceGroupKaits/providers/Microsoft.Storage/storageAccounts/storagegroupkaits"
 		}
