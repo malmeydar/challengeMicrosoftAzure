@@ -1,0 +1,24 @@
+{
+	"name": "TrigetEventBlobStorage",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "PChallengeKaits",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/filefconteinerdata/blobs/",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/c3e3ad79-823c-43e1-b981-9fd1412b9b88/resourceGroups/ResourceGroupKaits/providers/Microsoft.Storage/storageAccounts/storagegroupkaits",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
