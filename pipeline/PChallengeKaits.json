@@ -59,7 +59,7 @@
 							"keys": [
 								"GeographyKey",
 								"CustomerAlternateKey",
-								""
+								"CustomerKey"
 							]
 						},
 						"sqlWriterUseTableLock": false,
