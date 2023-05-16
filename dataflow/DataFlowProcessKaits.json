@@ -25,7 +25,7 @@
 						"referenceName": "LnKedServicesSQLServer",
 						"type": "LinkedServiceReference"
 					},
-					"name": "sink1"
+					"name": "sinkCustomCustomerDataExcel"
 				}
 			],
 			"transformations": [
@@ -193,8 +193,10 @@
 				"          AddressLine2,",
 				"          Phone,",
 				"          DateFirstPurchase,",
-				"          CommuteDistance",
-				"     )) ~> sink1"
+				"          CommuteDistance,",
+				"          City,",
+				"          CountryRegionCode",
+				"     )) ~> sinkCustomCustomerDataExcel"
 			]
 		}
 	}
