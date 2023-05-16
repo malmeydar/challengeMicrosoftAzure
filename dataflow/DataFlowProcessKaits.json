@@ -19,7 +19,15 @@
 					"name": "SourceDimGeography"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DSCustomerDataExcelSQL",
+						"type": "DatasetReference"
+					},
+					"name": "sinkCustomerDataExcel"
+				}
+			],
 			"transformations": [
 				{
 					"name": "LookGeograpyKey"
@@ -112,7 +120,75 @@
 				"          CommuteDistance",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> CustonToCustomerDataExcel"
+				"     skipDuplicateMapOutputs: true) ~> CustonToCustomerDataExcel",
+				"CustonToCustomerDataExcel sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          GeographyKey as integer,",
+				"          CustomerAlternateKey as string,",
+				"          FirstName as string,",
+				"          MiddleName as string,",
+				"          LastName as string,",
+				"          BirthDate as date,",
+				"          MaritalStatus as string,",
+				"          Suffix as string,",
+				"          Gender as string,",
+				"          EmailAddress as string,",
+				"          YearlyIncome as string,",
+				"          TotalChildren as string,",
+				"          NumberChildrenAtHome as string,",
+				"          EnglishEducation as string,",
+				"          SpanishEducation as string,",
+				"          FrenchEducation as string,",
+				"          EnglishOccupation as string,",
+				"          SpanishOccupation as string,",
+				"          FrenchOccupation as string,",
+				"          HouseOwnerFlag as string,",
+				"          NumberCarsOwned as string,",
+				"          AddressLine1 as string,",
+				"          AddressLine2 as string,",
+				"          Phone as string,",
+				"          DateFirstPurchase as date,",
+				"          CommuteDistance as string,",
+				"          CustomerKey as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          GeographyKey,",
+				"          CustomerAlternateKey,",
+				"          FirstName,",
+				"          MiddleName,",
+				"          LastName,",
+				"          BirthDate,",
+				"          MaritalStatus,",
+				"          Suffix,",
+				"          Gender,",
+				"          EmailAddress,",
+				"          YearlyIncome,",
+				"          TotalChildren,",
+				"          NumberChildrenAtHome,",
+				"          EnglishEducation,",
+				"          SpanishEducation,",
+				"          FrenchEducation,",
+				"          EnglishOccupation,",
+				"          SpanishOccupation,",
+				"          FrenchOccupation,",
+				"          HouseOwnerFlag,",
+				"          NumberCarsOwned,",
+				"          AddressLine1,",
+				"          AddressLine2,",
+				"          Phone,",
+				"          DateFirstPurchase,",
+				"          CommuteDistance",
+				"     )) ~> sinkCustomerDataExcel"
 			]
 		}
 	}
