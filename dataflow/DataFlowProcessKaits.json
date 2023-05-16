@@ -88,7 +88,7 @@
 				"     format: 'table') ~> SourceDimGeography",
 				"SourceCustonDataExcel, SourceDimGeography join(SourceCustonDataExcel@City == SourceDimGeography@City",
 				"     && SourceCustonDataExcel@CountryRegionCode == SourceDimGeography@CountryRegionCode,",
-				"     joinType:'inner',",
+				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> JoinCustomerData",
