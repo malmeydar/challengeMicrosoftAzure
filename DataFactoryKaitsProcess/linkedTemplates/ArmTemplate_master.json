@@ -19,6 +19,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'linkedServicesBlobStorage'"
 		},
+		"TrigetEventBlobStorage_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/c3e3ad79-823c-43e1-b981-9fd1412b9b88/resourceGroups/ResourceGroupKaits/providers/Microsoft.Storage/storageAccounts/storagegroupkaits"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -54,6 +58,9 @@
 					},
 					"linkedServicesBlobStorage_connectionString": {
 						"value": "[parameters('linkedServicesBlobStorage_connectionString')]"
+					},
+					"TrigetEventBlobStorage_properties_typeProperties_scope": {
+						"value": "[parameters('TrigetEventBlobStorage_properties_typeProperties_scope')]"
 					}
 				}
 			},
