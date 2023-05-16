@@ -69,7 +69,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     purgeFiles: true) ~> SourceCustonDataExcel",
+				"     moveFiles: ['CustomerData.csv','']) ~> SourceCustonDataExcel",
 				"source(output(",
 				"          GeographyKey as integer,",
 				"          City as string,",
