@@ -369,6 +369,18 @@
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
+							},
+							{
+								"source": {
+									"name": "GeographyKey",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "GeographyKey",
+									"type": "Int32",
+									"physicalType": "int"
+								}
 							}
 						],
 						"typeConversion": true,
